@@ -1,11 +1,16 @@
 package co.edureka.controller;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.jws.soap.SOAPBinding.Use;
 
 import co.edureka.model.User;
 
@@ -44,6 +49,8 @@ public class DBHelper {
 	
 	Statement statement;   
 	PreparedStatement preparedStatement; // Just like Statement API
+	
+	CallableStatement callableStatement; // To Execute Stored Procedure
 	
 	
 	public DBHelper() {
@@ -199,11 +206,64 @@ public class DBHelper {
 		return users;
 	}
 	
+	
+	public void executeProcedure(User user) {
+		
+		try {
+			
+			String sql = "{ call addUser(?, ?, ?) }"; // SQL Query to execute addUser Procedure
+			callableStatement = connection.prepareCall(sql);
+			
+			callableStatement.setString(1, user.name);
+			callableStatement.setString(2, user.phone);
+			callableStatement.setString(3, user.email);
+			
+			callableStatement.execute();
+			System.out.println(">> Procedure is Executed :)");
+			
+		} catch (SQLException e) {
+			System.out.println(">> Some Exception: "+e);
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void processBatchAsTransaction() {
+		
+		try {
+			
+			//String sql1 = "update User set name='Mike Watson', email='mike.w@example.com', phone='+91 99999 22222' where uid = 4";
+			String sql1 = "delete from User where uid = 4";		// Correct SQL Statement
+			String sql2 = "delete from User where userid = 6";  // SQL Statement will cause an exception as column userid doesn not exist
+			
+			statement = connection.createStatement();
+			statement.addBatch(sql1);
+			statement.addBatch(sql2);
+			
+			connection.setAutoCommit(false); // We need to manage batch as a Transaction(Everything should be executed without fail)
+			
+			int[] results = statement.executeBatch();
+			connection.commit();             // Execute Batch as Transaction
+			System.out.println(">> Batch Executed: "+Arrays.toString(results));
+		} catch (Exception e) {
+			System.out.println(">> Something Went Wrong: "+e);
+			
+			try {
+				connection.rollback();
+				System.out.println(">> Transaction Rolled Back :(");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
 	public void closeConnection() {
 		try {
 			connection.close();
 			System.out.println(">> Connection Closed :)");
-		} catch (Exception e) {
+		} catch (Exception e) { // Polymorphic Structure : Exception is parent to all the Exceptions in Java
 			System.out.println(">> Some Exception: "+e);
 		}
 	}

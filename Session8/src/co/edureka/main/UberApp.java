@@ -73,6 +73,7 @@ public class UberApp {
 		db.closeConnection();
 		*/
 		
+		/*
 		DBHelper db = new DBHelper();
 		db.createConnection();
 		ArrayList<User> users = db.fetchAllUsers();
@@ -80,7 +81,17 @@ public class UberApp {
 		
 		for(User user : users) {
 			user.showUser();
-		}
+		}*/
+		
+		//User user = new User(0, "Sia", "+91 90909 80808", "sia@example.com");
+		
+		DBHelper db = new DBHelper();
+		db.createConnection();
+		//db.executeProcedure(user);
+		
+		db.processBatchAsTransaction();
+		
+		db.closeConnection();
 		
 	}
 
