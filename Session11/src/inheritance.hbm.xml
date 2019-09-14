@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+
+   <class name="co.edureka.model.FoodItem" table="FOODITEMS" discriminator-value="FI">
+   
+      <id name="itemId" column="ITEMID">
+         <generator class="increment"/>
+      </id>
+      <discriminator column="TYPE" type="string"/>	<!-- This is an additional column which will have value as FI -->
+      <property name="price" column="PRICE" />
+      
+      <subclass name="co.edureka.model.VeggieBurger" discriminator-value="VB">
+      	<property name="name" column="NAME" />
+      	<property name="description" column="DESCRIPTION" />
+      
+      	<subclass name="co.edureka.model.SpiceyHerbsCheeseBurger" discriminator-value="SHCB">
+	      <property name="herbs" column="HERBS" />
+	      <property name="spice" column="SPICE" />
+       </subclass>
+      
+      </subclass>
+      
+   </class>
+   
+</hibernate-mapping>

@@ -1,10 +1,12 @@
-<%@page import="co.edureka.model.Product"%>
+<%@ page import="co.edureka.model.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page errorPage="error.jsp" %>  
 <%@ page isThreadSafe="true" %>  
 <%@ page buffer="8kb" %>
+<%@ page info="This is a Demo of JSP" %>
 <%@ include file="header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!DOCTYPE html>
 <html>
@@ -14,10 +16,21 @@
 </head>
 <body>
 	
-	
-	
-	
 	<center>
+	
+	
+		<h3>JSTL Demo</h3>
+		<!-- Follow this link to use tags to connect to the database | https://docs.oracle.com/javaee/5/tutorial/doc/bnald.html -->
+		
+		<c:forEach var="number" begin="1" end="10">
+			<c:out value="${number}"/><br/>
+		</c:forEach>
+		
+		
+		<%-- ${number} Expression Language--%>
+		
+		<p>=====================</p>
+		<br/>
 	
 		<%
 			
