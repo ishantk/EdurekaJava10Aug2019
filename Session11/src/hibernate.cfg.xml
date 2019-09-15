@@ -22,6 +22,9 @@
 
 		<!-- Batch Size is to determine how many SQL Queries can be executed all together -->
 		<property name="hibernate.jdbc.batch_size">100</property>
+		
+		<!-- Records Fetched from DataBase will be automatically cached -->
+		<!-- <property name="hibernate.cache.use_query_cache">true</property> -->
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
@@ -30,12 +33,12 @@
         <property name="hbm2ddl.auto">update</property>
         
 		<!-- For hbm file -->
-        <!-- <mapping resource="employee.hbm.xml"/>  --> 		 <!-- In case we have mapping in hbm file -->
+        <mapping resource="employee.hbm.xml"/>	 		 <!-- In case we have mapping in hbm file -->
         <!-- <mapping class="co.edureka.model.Employee"/> -->	 <!-- In case we have mapping in java file with annotations -->
 		
 		<!-- <mapping resource="onetoone.hbm.xml"/> -->
 		<!-- <mapping resource="onetomany.hbm.xml"/> -->
-		<mapping resource="inheritance.hbm.xml"/>
+		<!-- <mapping resource="inheritance.hbm.xml"/> -->
 
     </session-factory>
 

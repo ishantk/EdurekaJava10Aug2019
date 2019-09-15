@@ -31,12 +31,13 @@ public class App {
 
 	public static void main(String[] args) {
 		
-		
+		/*
 		Employee eRef1 = new Employee(null, "Mike", "+91 99999 11111", "mike@example.com", "Sr. Engr", 40000);
 		Employee eRef2 = new Employee(null, "Kim", "+91 98999 12345", "kim@example.com", "Asst. Manager", 60000);
 		
 		System.out.println(eRef1);
 		System.out.println(eRef2);
+		*/
 		
 		
 		
@@ -65,13 +66,14 @@ public class App {
 				StandardServiceRegistryBuilder.destroy(registry);
 			}
 			
-			session = sessionFactory.openSession(); // Obtain Connection to the DataBase
+			session = sessionFactory.openSession(); 			// Obtain Connection to the DataBase
+			//anotherSession = sessionFactory.openSession();	// We can obtain multiple sessions. Cache management will be taken care by SessionFactory for us !!
 			transaction = session.getTransaction(); // Reference to Transaction Object
 			transaction.begin();					// Begin Transaction
 			
 			// 1. Insert Data in DataBase (Automatically SQL Query will be fired for us by extracting values of attributes in object referred by eRef1)
-			session.save(eRef1);
-			session.save(eRef2);
+			//session.save(eRef1);
+			//session.save(eRef2);
 			
 			// 2. Fetch Single Record from Table
 			// Fetches record from Table and converts it to the Object as well :)
@@ -119,9 +121,28 @@ public class App {
 				session.save(emp); // 100 Employee Objects shall be saved here in session
 			}*/
 			
+			// Fetching Records from DataBase
+			// 1st Level of Cache - Session Object in Hibernate manages automatically 
+			Employee e1 = session.get(Employee.class, 3);
+			Employee e2 = session.get(Employee.class, 5);
+			
+			System.out.println(e1);
+			System.out.println(e2);
+			
+			System.out.println(">> Re-Fetch the same Records again");
+			
+			Employee e3 = session.get(Employee.class, 3);
+			Employee e4 = session.get(Employee.class, 5);
+			
+			System.out.println(e3);
+			System.out.println(e4);
+			
 			transaction.commit();					// Ensure Transaction must be executed
 			
 			System.out.println(">> Hibernate Execution Done !!");
+			
+			//session.close(); 			Till Session is not closed Cache will be maintained automatically for us !!
+			//sessionFactory.close();	Till SessionFactory is not closed Cache will be maintained automatically for us !!
 			
 		} catch (Exception e) {
 			System.out.println(">> Some Exception "+e);

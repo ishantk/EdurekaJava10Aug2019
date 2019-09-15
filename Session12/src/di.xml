@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+   <!-- Configuration of Bean i.e. Object's Data in XML file --> 
+   
+   <bean id="aRef" class="co.edureka.model.Address">
+       <property name="adrsLine" value="Pristine Magnum"/>
+       <property name="city" value="Bangalore"/>
+       <property name="state" value="Karnataka"/>
+       <property name="zipCode" value="520001"/>
+   </bean>
+   
+   <bean id="cRef" class="co.edureka.model.Customer">
+       <property name="name" value="Mike"/>
+       <property name="phone" value="+91 99999 88888"/>
+       <property name="email" value="mike@example.com"/>
+       <!-- <constructor-arg ref="aRef"/> -->	<!-- CONSTRUCTOR INJECTION: Use Constructor and Pass aRef as Input -->
+       <property name="address" ref="aRef"/>	<!-- SETTER INJECTION : Use Setter method and Pass aRef as Input -->
+       
+       <property name="messages">
+	       	<list>
+	       		<value>Product ABC Out for Delivery</value>
+	       		<value>Product XYZ Delivered at Home</value>
+	       		<value>Product PQR Shipped</value>
+	       	</list>
+	       	
+	       	<!-- <set></set>
+	       	<map></map>
+	       	<array></array> -->
+       </property>
+       
+   </bean>
+   
+
+</beans>
